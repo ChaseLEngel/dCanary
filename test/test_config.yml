@@ -1,0 +1,5 @@
+telegram_api_token: 123
+telegram_chat_id: 1234
+disks:
+  /dev/disk1: 100
+  /dev/disk2: 10
