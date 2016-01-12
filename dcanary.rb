@@ -35,7 +35,7 @@ end
 
 # Get amount of space left on a disk.
 def amountLeft disk
-	`df -h | \grep #{disk} | awk '{print $4}'`.to_i
+	`df -h | \grep #{disk} | awk '{print $4}'`.chomp
 end
 
 # Get hostname of the machine.
