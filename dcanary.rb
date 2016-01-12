@@ -4,7 +4,7 @@ require "yaml"
 require "rest-client"
 require_relative 'lib/locker.rb'
 
-config = YAML.load_file("config.yml")
+config = YAML.load_file(File.dirname(__FILE__) + "/config.yml")
 
 locker = Locker.new disks: config["disks"]
 
