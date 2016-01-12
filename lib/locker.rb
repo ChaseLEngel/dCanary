@@ -8,7 +8,7 @@ class Locker
 
 	def initialize filename=nil, disks
 		# Take custom lock file or use default of script's directory/disks.lock
-		@lock_file = filename || File.join(__dir__, "disks.lock")
+		@lock_file = filename || File.join(__dir__, "../disks.lock")
 		@json = disks[:disks].clone
 		# Replace config's limit values with locker's 0.
 		@json.map{|k, v| @json[k] = 0}

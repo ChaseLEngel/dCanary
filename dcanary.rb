@@ -17,7 +17,7 @@ if @token.nil? || @chat_id.nil?
 end
 
 # Send a Telegram message
-def sendMessage
+def sendMessage disk
 	message = "#{hostname} has disk #{disk} that is #{percent(disk)}% full, #{amountLeft(disk)} left."
 	url = "https://api.telegram.org/bot#{@token}/sendMessage"
 	RestClient.post url, {:chat_id => @chat_id, :text => message}
@@ -48,7 +48,7 @@ end
 config["disks"]
 	.select{ |disk, limit| percent(disk) <= limit.to_i and not locker.locked?(disk) }
 	.each do |disk, limit|
-		sendMessage
+		sendMessage(disk)
 		locker.lock(disk)
 	end
 
