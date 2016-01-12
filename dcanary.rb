@@ -46,7 +46,7 @@ end
 # Disk is over limit and unlocked.
 # Send message and lock that disk.
 config["disks"]
-	.select{ |disk, limit| percent(disk) <= limit.to_i and not locker.locked?(disk) }
+	.select{ |disk, limit| percent(disk) >= limit.to_i and not locker.locked?(disk) }
 	.each do |disk, limit|
 		sendMessage(disk)
 		locker.lock(disk)
@@ -54,5 +54,5 @@ config["disks"]
 
 # Disk is under limit and locked.
 # Unlock that disk.
-config["disks"].select{ |disk, limit| percent(disk) > limit.to_i and locker.locked?(disk) }
+config["disks"].select{ |disk, limit| percent(disk) < limit.to_i and locker.locked?(disk) }
 	.each{ |disk, limit| locker.unlock(disk) }
