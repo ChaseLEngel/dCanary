@@ -6,8 +6,8 @@ require_relative '../lib/locker.rb'
 class TestLocker < Minitest::Test
 
 	def setup
-		@config = YAML.load_file "test_config.yml"
-		@locker = Locker.new disks: @config["disks"]
+		@config = YAML.load_file File.dirname(__FILE__) + "/test_config.yml"
+		@locker = Locker.new @config["disks"]
 		@random_disk = Proc.new { @config["disks"].keys.sample }
 	end
 
@@ -31,9 +31,18 @@ class TestLocker < Minitest::Test
 		assert !@locker.locked?(@random_disk.call), "Should be false."
 	end
 
+	def test_locked_true
+		@locker.json.update({"/dev/disk1" => "1"})
+		assert @locker.locked?("/dev/disk1"), "Locked? should return true."
+	end
+
+	def test_locked_false
+		@locker.json.update({"/dev/disk1" => "0"})
+		assert !@locker.locked?("/dev/disk1"), "Locked? should return false."
+	end
+
 	def teardown
 		FileUtils.rm @locker.lock_file if File.exist? @locker.lock_file
 	end
 
 end
-
